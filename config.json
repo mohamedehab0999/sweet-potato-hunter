@@ -1,0 +1,56 @@
+{
+  "email": {
+    "sender_email": "mohamedehab1099@gmail.com",
+    "sender_password": "zmvx xhwr uwgz ylgx",
+    "recipient_email": [
+      "mohamedehab0999@gmail.com",
+      "alshimaanasser19@gmail.com"
+    ]
+  },
+  "drive_folder_id": "1oXiHT2dBsCNLbm64G_s8LMCD8-XZFkpD",
+  "search_queries": [
+    "sweet potato export station Egypt sorting machine cleaning machine 2026",
+    "بطاطا حلوة محطة تصدير مصر ماكينة فرز وغسيل",
+    "Egypt sweet potato postharvest equipment procurement Beheira",
+    "Sudan sweet potato export station machinery procurement",
+    "مصنع بطاطا حلوة مصر تصدير اوروبا ماكينة فرز",
+    "Egypt agri export postharvest sorting grading cleaning machine supplier",
+    "sweet potato grading machine Egypt supplier 2026",
+    "محطة تعبئة بطاطا حلوة كفر الشيخ البحيرة"
+  ],
+  "score_keywords": {
+    "high_value": [
+      "sweet potato",
+      "بطاطا حلوة",
+      "export station",
+      "محطة تصدير",
+      "packing station",
+      "sorting machine",
+      "cleaning machine"
+    ],
+    "medium_value": [
+      "sorting",
+      "cleaning",
+      "grading",
+      "washing",
+      "فرز",
+      "غسيل",
+      "تدريج",
+      "postharvest",
+      "packing"
+    ],
+    "location": [
+      "egypt",
+      "sudan",
+      "مصر",
+      "السودان",
+      "beheira",
+      "kafr",
+      "gezira",
+      "dakahlia",
+      "nile delta"
+    ]
+  },
+  "min_score_to_include": 3,
+  "max_leads_per_run": 50
+}
