@@ -1,0 +1,58 @@
+name: Monthly Sweet Potato Station Hunter
+
+on:
+  schedule:
+    # 1st of every month at 07:00 UTC = 09:00 Egypt time
+    - cron: "0 7 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  hunt-leads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
+      - name: Ensure reports folder exists
+        run: mkdir -p reports
+
+      - name: Run lead_hunter.py
+        env:
+          SENDER_EMAIL:       ${{ secrets.SENDER_EMAIL }}
+          SENDER_PASSWORD:    ${{ secrets.SENDER_PASSWORD }}
+          RECIPIENT_EMAIL:    ${{ secrets.RECIPIENT_EMAIL }}
+          DRIVE_FOLDER_ID:    ${{ secrets.DRIVE_FOLDER_ID }}
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: python lead_hunter.py
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sweet-potato-report-${{ github.run_number }}
+          path: reports/
+          retention-days: 60
+          if-no-files-found: warn
+
+      - name: Commit report to repo
+        continue-on-error: true
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          git diff --cached --quiet || git commit -m "chore: monthly sweet potato report $(date -u +%Y-%m-%d)"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
