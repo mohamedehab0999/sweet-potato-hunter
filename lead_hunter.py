@@ -488,8 +488,8 @@ def main():
 
     print(f"  ✅ {len(SEED_LEADS)} verified + {len(scraped)} web = {len(all_leads)} total")
 
-    excel_path = generate_excel(all_leads, date_str)
-    send_email(cfg, excel_path, all_leads, date_str)
+    excel_path = generate_excel(all_leads, today_new, date_str)
+    send_email(cfg, excel_path, all_leads, today_new, date_str)
 
     try:
         from upload_to_drive import upload_report
