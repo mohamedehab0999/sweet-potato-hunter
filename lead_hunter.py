@@ -474,19 +474,14 @@ def main():
         print(f"  🔍 {query[:65]}")
         scraped.extend(ddg_search(query, num=6))
         time.sleep(1)
-
     scraped = dedup(scraped)
-    scraped.sort(key=lambda x: -x.get("score", 0))
 
-    all_leads = SEED_LEADS + scraped
-    seen, unique = set(), []
-    for l in all_leads:
-        k = l.get("url","")[:60]
-        if k not in seen:
-            seen.add(k); unique.append(l)
-    all_leads = sorted(unique, key=lambda x: -x.get("score", 0))
-
-    print(f"  ✅ {len(SEED_LEADS)} verified + {len(scraped)} web = {len(all_leads)} total")
+    today_candidates = dedup(SEED_LEADS + scraped)
+    history = load_history()
+    print(f"  📂 History: {len(history)} existing leads")
+    all_leads, today_new = merge_leads(history, today_candidates, date_str)
+    print(f"  ✅ {len(today_new)} new today | {len(all_leads)} total all-time")
+    save_history(all_leads)
 
     excel_path = generate_excel(all_leads, today_new, date_str)
     send_email(cfg, excel_path, all_leads, today_new, date_str)
@@ -498,7 +493,7 @@ def main():
     except Exception as e:
         print(f"  [Drive] {e}")
 
-    print(f"\n✅ Done — {len(all_leads)} stations | {excel_path.name}")
+    print(f"\n✅ Done — {len(today_new)} new | {len(all_leads)} total | {excel_path.name}")
 
 if __name__ == "__main__":
     main()
